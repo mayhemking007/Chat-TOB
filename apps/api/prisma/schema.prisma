@@ -1,0 +1,28 @@
+// Chat TOB — Phase 1.2: User, Workspace (DATA_MODELS §3.1, §3.2)
+// Prisma 7: connection URL is in prisma.config.ts (not here). Client uses adapter in code.
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String     @id @default(cuid())
+  email      String     @unique
+  name       String?
+  createdAt  DateTime   @default(now())
+  workspaces Workspace[]
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  ownerId   String
+  createdAt DateTime @default(now())
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+}
