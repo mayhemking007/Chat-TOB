@@ -10,19 +10,25 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(cuid())
-  email      String     @unique
-  name       String?
-  createdAt  DateTime   @default(now())
-  workspaces Workspace[]
+  id                    String     @id @default(cuid())
+  email                 String     @unique
+  name                  String?
+  passwordHash          String?    // null for OAuth-only users
+  lastActiveWorkspaceId String?
+  createdAt             DateTime   @default(now())
+  workspaces            Workspace[]
+  lastActiveWorkspace   Workspace? @relation("LastActiveWorkspace", fields: [lastActiveWorkspaceId], references: [id], onDelete: SetNull)
+
+  @@index([lastActiveWorkspaceId])
 }
 
 model Workspace {
-  id        String   @id @default(cuid())
-  name      String
-  ownerId   String
-  createdAt DateTime @default(now())
-  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  id                  String   @id @default(cuid())
+  name                String
+  ownerId             String
+  createdAt           DateTime @default(now())
+  owner               User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  lastActiveForUsers  User[]   @relation("LastActiveWorkspace")
 
   @@index([ownerId])
 }

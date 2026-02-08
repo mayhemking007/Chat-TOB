@@ -28,6 +28,8 @@ export type UserMinAggregateOutputType = {
   id: string | null
   email: string | null
   name: string | null
+  passwordHash: string | null
+  lastActiveWorkspaceId: string | null
   createdAt: Date | null
 }
 
@@ -35,6 +37,8 @@ export type UserMaxAggregateOutputType = {
   id: string | null
   email: string | null
   name: string | null
+  passwordHash: string | null
+  lastActiveWorkspaceId: string | null
   createdAt: Date | null
 }
 
@@ -42,6 +46,8 @@ export type UserCountAggregateOutputType = {
   id: number
   email: number
   name: number
+  passwordHash: number
+  lastActiveWorkspaceId: number
   createdAt: number
   _all: number
 }
@@ -51,6 +57,8 @@ export type UserMinAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  passwordHash?: true
+  lastActiveWorkspaceId?: true
   createdAt?: true
 }
 
@@ -58,6 +66,8 @@ export type UserMaxAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  passwordHash?: true
+  lastActiveWorkspaceId?: true
   createdAt?: true
 }
 
@@ -65,6 +75,8 @@ export type UserCountAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  passwordHash?: true
+  lastActiveWorkspaceId?: true
   createdAt?: true
   _all?: true
 }
@@ -145,6 +157,8 @@ export type UserGroupByOutputType = {
   id: string
   email: string
   name: string | null
+  passwordHash: string | null
+  lastActiveWorkspaceId: string | null
   createdAt: Date
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
@@ -173,16 +187,22 @@ export type UserWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
+  lastActiveWorkspaceId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   workspaces?: Prisma.WorkspaceListRelationFilter
+  lastActiveWorkspace?: Prisma.XOR<Prisma.WorkspaceNullableScalarRelationFilter, Prisma.WorkspaceWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastActiveWorkspaceId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   workspaces?: Prisma.WorkspaceOrderByRelationAggregateInput
+  lastActiveWorkspace?: Prisma.WorkspaceOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -192,14 +212,19 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
+  lastActiveWorkspaceId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   workspaces?: Prisma.WorkspaceListRelationFilter
+  lastActiveWorkspace?: Prisma.XOR<Prisma.WorkspaceNullableScalarRelationFilter, Prisma.WorkspaceWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastActiveWorkspaceId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -213,6 +238,8 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  lastActiveWorkspaceId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
@@ -220,14 +247,18 @@ export type UserCreateInput = {
   id?: string
   email: string
   name?: string | null
+  passwordHash?: string | null
   createdAt?: Date | string
   workspaces?: Prisma.WorkspaceCreateNestedManyWithoutOwnerInput
+  lastActiveWorkspace?: Prisma.WorkspaceCreateNestedOneWithoutLastActiveForUsersInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
   email: string
   name?: string | null
+  passwordHash?: string | null
+  lastActiveWorkspaceId?: string | null
   createdAt?: Date | string
   workspaces?: Prisma.WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
 }
@@ -236,14 +267,18 @@ export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workspaces?: Prisma.WorkspaceUpdateManyWithoutOwnerNestedInput
+  lastActiveWorkspace?: Prisma.WorkspaceUpdateOneWithoutLastActiveForUsersNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastActiveWorkspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workspaces?: Prisma.WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
 }
@@ -252,6 +287,8 @@ export type UserCreateManyInput = {
   id?: string
   email: string
   name?: string | null
+  passwordHash?: string | null
+  lastActiveWorkspaceId?: string | null
   createdAt?: Date | string
 }
 
@@ -259,6 +296,7 @@ export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -266,6 +304,8 @@ export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastActiveWorkspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -273,6 +313,8 @@ export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  lastActiveWorkspaceId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -280,6 +322,8 @@ export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  lastActiveWorkspaceId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -287,12 +331,24 @@ export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  lastActiveWorkspaceId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -313,6 +369,20 @@ export type UserCreateNestedOneWithoutWorkspacesInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedManyWithoutLastActiveWorkspaceInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLastActiveWorkspaceInput, Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput> | Prisma.UserCreateWithoutLastActiveWorkspaceInput[] | Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLastActiveWorkspaceInput | Prisma.UserCreateOrConnectWithoutLastActiveWorkspaceInput[]
+  createMany?: Prisma.UserCreateManyLastActiveWorkspaceInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutLastActiveWorkspaceInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLastActiveWorkspaceInput, Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput> | Prisma.UserCreateWithoutLastActiveWorkspaceInput[] | Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLastActiveWorkspaceInput | Prisma.UserCreateOrConnectWithoutLastActiveWorkspaceInput[]
+  createMany?: Prisma.UserCreateManyLastActiveWorkspaceInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
 export type UserUpdateOneRequiredWithoutWorkspacesNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutWorkspacesInput, Prisma.UserUncheckedCreateWithoutWorkspacesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkspacesInput
@@ -321,23 +391,83 @@ export type UserUpdateOneRequiredWithoutWorkspacesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWorkspacesInput, Prisma.UserUpdateWithoutWorkspacesInput>, Prisma.UserUncheckedUpdateWithoutWorkspacesInput>
 }
 
+export type UserUpdateManyWithoutLastActiveWorkspaceNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLastActiveWorkspaceInput, Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput> | Prisma.UserCreateWithoutLastActiveWorkspaceInput[] | Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLastActiveWorkspaceInput | Prisma.UserCreateOrConnectWithoutLastActiveWorkspaceInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutLastActiveWorkspaceInput | Prisma.UserUpsertWithWhereUniqueWithoutLastActiveWorkspaceInput[]
+  createMany?: Prisma.UserCreateManyLastActiveWorkspaceInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutLastActiveWorkspaceInput | Prisma.UserUpdateWithWhereUniqueWithoutLastActiveWorkspaceInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutLastActiveWorkspaceInput | Prisma.UserUpdateManyWithWhereWithoutLastActiveWorkspaceInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutLastActiveWorkspaceNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLastActiveWorkspaceInput, Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput> | Prisma.UserCreateWithoutLastActiveWorkspaceInput[] | Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLastActiveWorkspaceInput | Prisma.UserCreateOrConnectWithoutLastActiveWorkspaceInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutLastActiveWorkspaceInput | Prisma.UserUpsertWithWhereUniqueWithoutLastActiveWorkspaceInput[]
+  createMany?: Prisma.UserCreateManyLastActiveWorkspaceInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutLastActiveWorkspaceInput | Prisma.UserUpdateWithWhereUniqueWithoutLastActiveWorkspaceInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutLastActiveWorkspaceInput | Prisma.UserUpdateManyWithWhereWithoutLastActiveWorkspaceInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
 export type UserCreateWithoutWorkspacesInput = {
   id?: string
   email: string
   name?: string | null
+  passwordHash?: string | null
   createdAt?: Date | string
+  lastActiveWorkspace?: Prisma.WorkspaceCreateNestedOneWithoutLastActiveForUsersInput
 }
 
 export type UserUncheckedCreateWithoutWorkspacesInput = {
   id?: string
   email: string
   name?: string | null
+  passwordHash?: string | null
+  lastActiveWorkspaceId?: string | null
   createdAt?: Date | string
 }
 
 export type UserCreateOrConnectWithoutWorkspacesInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutWorkspacesInput, Prisma.UserUncheckedCreateWithoutWorkspacesInput>
+}
+
+export type UserCreateWithoutLastActiveWorkspaceInput = {
+  id?: string
+  email: string
+  name?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+  workspaces?: Prisma.WorkspaceCreateNestedManyWithoutOwnerInput
+}
+
+export type UserUncheckedCreateWithoutLastActiveWorkspaceInput = {
+  id?: string
+  email: string
+  name?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+  workspaces?: Prisma.WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
+}
+
+export type UserCreateOrConnectWithoutLastActiveWorkspaceInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLastActiveWorkspaceInput, Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput>
+}
+
+export type UserCreateManyLastActiveWorkspaceInputEnvelope = {
+  data: Prisma.UserCreateManyLastActiveWorkspaceInput | Prisma.UserCreateManyLastActiveWorkspaceInput[]
+  skipDuplicates?: boolean
 }
 
 export type UserUpsertWithoutWorkspacesInput = {
@@ -355,13 +485,79 @@ export type UserUpdateWithoutWorkspacesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastActiveWorkspace?: Prisma.WorkspaceUpdateOneWithoutLastActiveForUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWorkspacesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastActiveWorkspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserUpsertWithWhereUniqueWithoutLastActiveWorkspaceInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLastActiveWorkspaceInput, Prisma.UserUncheckedUpdateWithoutLastActiveWorkspaceInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLastActiveWorkspaceInput, Prisma.UserUncheckedCreateWithoutLastActiveWorkspaceInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutLastActiveWorkspaceInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLastActiveWorkspaceInput, Prisma.UserUncheckedUpdateWithoutLastActiveWorkspaceInput>
+}
+
+export type UserUpdateManyWithWhereWithoutLastActiveWorkspaceInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutLastActiveWorkspaceInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.StringFilter<"User"> | string
+  email?: Prisma.StringFilter<"User"> | string
+  name?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
+  lastActiveWorkspaceId?: Prisma.StringNullableFilter<"User"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+}
+
+export type UserCreateManyLastActiveWorkspaceInput = {
+  id?: string
+  email: string
+  name?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+}
+
+export type UserUpdateWithoutLastActiveWorkspaceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspaces?: Prisma.WorkspaceUpdateManyWithoutOwnerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLastActiveWorkspaceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspaces?: Prisma.WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
+}
+
+export type UserUncheckedUpdateManyWithoutLastActiveWorkspaceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -400,8 +596,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   email?: boolean
   name?: boolean
+  passwordHash?: boolean
+  lastActiveWorkspaceId?: boolean
   createdAt?: boolean
   workspaces?: boolean | Prisma.User$workspacesArgs<ExtArgs>
+  lastActiveWorkspace?: boolean | Prisma.User$lastActiveWorkspaceArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -409,40 +608,56 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   email?: boolean
   name?: boolean
+  passwordHash?: boolean
+  lastActiveWorkspaceId?: boolean
   createdAt?: boolean
+  lastActiveWorkspace?: boolean | Prisma.User$lastActiveWorkspaceArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   name?: boolean
+  passwordHash?: boolean
+  lastActiveWorkspaceId?: boolean
   createdAt?: boolean
+  lastActiveWorkspace?: boolean | Prisma.User$lastActiveWorkspaceArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
   email?: boolean
   name?: boolean
+  passwordHash?: boolean
+  lastActiveWorkspaceId?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "passwordHash" | "lastActiveWorkspaceId" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workspaces?: boolean | Prisma.User$workspacesArgs<ExtArgs>
+  lastActiveWorkspace?: boolean | Prisma.User$lastActiveWorkspaceArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  lastActiveWorkspace?: boolean | Prisma.User$lastActiveWorkspaceArgs<ExtArgs>
+}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  lastActiveWorkspace?: boolean | Prisma.User$lastActiveWorkspaceArgs<ExtArgs>
+}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
     workspaces: Prisma.$WorkspacePayload<ExtArgs>[]
+    lastActiveWorkspace: Prisma.$WorkspacePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
     name: string | null
+    passwordHash: string | null
+    lastActiveWorkspaceId: string | null
     createdAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -839,6 +1054,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   workspaces<T extends Prisma.User$workspacesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workspacesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lastActiveWorkspace<T extends Prisma.User$lastActiveWorkspaceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$lastActiveWorkspaceArgs<ExtArgs>>): Prisma.Prisma__WorkspaceClient<runtime.Types.Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -871,6 +1087,8 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
+  readonly passwordHash: Prisma.FieldRef<"User", 'String'>
+  readonly lastActiveWorkspaceId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
@@ -1121,6 +1339,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1191,6 +1413,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1281,6 +1507,25 @@ export type User$workspacesArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.WorkspaceScalarFieldEnum | Prisma.WorkspaceScalarFieldEnum[]
+}
+
+/**
+ * User.lastActiveWorkspace
+ */
+export type User$lastActiveWorkspaceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Workspace
+   */
+  select?: Prisma.WorkspaceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Workspace
+   */
+  omit?: Prisma.WorkspaceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkspaceInclude<ExtArgs> | null
+  where?: Prisma.WorkspaceWhereInput
 }
 
 /**
