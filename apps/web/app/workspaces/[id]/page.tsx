@@ -16,7 +16,9 @@ export default function WorkspacePage() {
     if (!id) return;
     let cancelled = false;
     (async () => {
-      const res = await fetch(`/api/workspaces/${encodeURIComponent(id)}`);
+      const res = await fetch(`/api/workspaces/${encodeURIComponent(id)}`, {
+        credentials: "include",
+      });
       if (cancelled) return;
       if (res.status === 401) {
         router.replace("/login");
@@ -35,6 +37,7 @@ export default function WorkspacePage() {
       // Set as last active workspace
       await fetch("/api/me", {
         method: "PATCH",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lastActiveWorkspaceId: data.id }),
       });

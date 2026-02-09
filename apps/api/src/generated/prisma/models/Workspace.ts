@@ -176,6 +176,7 @@ export type WorkspaceWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   lastActiveForUsers?: Prisma.UserListRelationFilter
+  folders?: Prisma.FolderListRelationFilter
 }
 
 export type WorkspaceOrderByWithRelationInput = {
@@ -185,6 +186,7 @@ export type WorkspaceOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
   lastActiveForUsers?: Prisma.UserOrderByRelationAggregateInput
+  folders?: Prisma.FolderOrderByRelationAggregateInput
 }
 
 export type WorkspaceWhereUniqueInput = Prisma.AtLeast<{
@@ -197,6 +199,7 @@ export type WorkspaceWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   lastActiveForUsers?: Prisma.UserListRelationFilter
+  folders?: Prisma.FolderListRelationFilter
 }, "id">
 
 export type WorkspaceOrderByWithAggregationInput = {
@@ -225,6 +228,7 @@ export type WorkspaceCreateInput = {
   createdAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutWorkspacesInput
   lastActiveForUsers?: Prisma.UserCreateNestedManyWithoutLastActiveWorkspaceInput
+  folders?: Prisma.FolderCreateNestedManyWithoutWorkspaceInput
 }
 
 export type WorkspaceUncheckedCreateInput = {
@@ -233,6 +237,7 @@ export type WorkspaceUncheckedCreateInput = {
   ownerId: string
   createdAt?: Date | string
   lastActiveForUsers?: Prisma.UserUncheckedCreateNestedManyWithoutLastActiveWorkspaceInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutWorkspaceInput
 }
 
 export type WorkspaceUpdateInput = {
@@ -241,6 +246,7 @@ export type WorkspaceUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutWorkspacesNestedInput
   lastActiveForUsers?: Prisma.UserUpdateManyWithoutLastActiveWorkspaceNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutWorkspaceNestedInput
 }
 
 export type WorkspaceUncheckedUpdateInput = {
@@ -249,6 +255,7 @@ export type WorkspaceUncheckedUpdateInput = {
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastActiveForUsers?: Prisma.UserUncheckedUpdateManyWithoutLastActiveWorkspaceNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
 }
 
 export type WorkspaceCreateManyInput = {
@@ -305,6 +312,11 @@ export type WorkspaceMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type WorkspaceScalarRelationFilter = {
+  is?: Prisma.WorkspaceWhereInput
+  isNot?: Prisma.WorkspaceWhereInput
 }
 
 export type WorkspaceCreateNestedManyWithoutOwnerInput = {
@@ -365,11 +377,26 @@ export type WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput = {
   deleteMany?: Prisma.WorkspaceScalarWhereInput | Prisma.WorkspaceScalarWhereInput[]
 }
 
+export type WorkspaceCreateNestedOneWithoutFoldersInput = {
+  create?: Prisma.XOR<Prisma.WorkspaceCreateWithoutFoldersInput, Prisma.WorkspaceUncheckedCreateWithoutFoldersInput>
+  connectOrCreate?: Prisma.WorkspaceCreateOrConnectWithoutFoldersInput
+  connect?: Prisma.WorkspaceWhereUniqueInput
+}
+
+export type WorkspaceUpdateOneRequiredWithoutFoldersNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkspaceCreateWithoutFoldersInput, Prisma.WorkspaceUncheckedCreateWithoutFoldersInput>
+  connectOrCreate?: Prisma.WorkspaceCreateOrConnectWithoutFoldersInput
+  upsert?: Prisma.WorkspaceUpsertWithoutFoldersInput
+  connect?: Prisma.WorkspaceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorkspaceUpdateToOneWithWhereWithoutFoldersInput, Prisma.WorkspaceUpdateWithoutFoldersInput>, Prisma.WorkspaceUncheckedUpdateWithoutFoldersInput>
+}
+
 export type WorkspaceCreateWithoutOwnerInput = {
   id?: string
   name: string
   createdAt?: Date | string
   lastActiveForUsers?: Prisma.UserCreateNestedManyWithoutLastActiveWorkspaceInput
+  folders?: Prisma.FolderCreateNestedManyWithoutWorkspaceInput
 }
 
 export type WorkspaceUncheckedCreateWithoutOwnerInput = {
@@ -377,6 +404,7 @@ export type WorkspaceUncheckedCreateWithoutOwnerInput = {
   name: string
   createdAt?: Date | string
   lastActiveForUsers?: Prisma.UserUncheckedCreateNestedManyWithoutLastActiveWorkspaceInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutWorkspaceInput
 }
 
 export type WorkspaceCreateOrConnectWithoutOwnerInput = {
@@ -394,6 +422,7 @@ export type WorkspaceCreateWithoutLastActiveForUsersInput = {
   name: string
   createdAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutWorkspacesInput
+  folders?: Prisma.FolderCreateNestedManyWithoutWorkspaceInput
 }
 
 export type WorkspaceUncheckedCreateWithoutLastActiveForUsersInput = {
@@ -401,6 +430,7 @@ export type WorkspaceUncheckedCreateWithoutLastActiveForUsersInput = {
   name: string
   ownerId: string
   createdAt?: Date | string
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutWorkspaceInput
 }
 
 export type WorkspaceCreateOrConnectWithoutLastActiveForUsersInput = {
@@ -450,6 +480,7 @@ export type WorkspaceUpdateWithoutLastActiveForUsersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutWorkspacesNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutWorkspaceNestedInput
 }
 
 export type WorkspaceUncheckedUpdateWithoutLastActiveForUsersInput = {
@@ -457,6 +488,55 @@ export type WorkspaceUncheckedUpdateWithoutLastActiveForUsersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
+}
+
+export type WorkspaceCreateWithoutFoldersInput = {
+  id?: string
+  name: string
+  createdAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutWorkspacesInput
+  lastActiveForUsers?: Prisma.UserCreateNestedManyWithoutLastActiveWorkspaceInput
+}
+
+export type WorkspaceUncheckedCreateWithoutFoldersInput = {
+  id?: string
+  name: string
+  ownerId: string
+  createdAt?: Date | string
+  lastActiveForUsers?: Prisma.UserUncheckedCreateNestedManyWithoutLastActiveWorkspaceInput
+}
+
+export type WorkspaceCreateOrConnectWithoutFoldersInput = {
+  where: Prisma.WorkspaceWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorkspaceCreateWithoutFoldersInput, Prisma.WorkspaceUncheckedCreateWithoutFoldersInput>
+}
+
+export type WorkspaceUpsertWithoutFoldersInput = {
+  update: Prisma.XOR<Prisma.WorkspaceUpdateWithoutFoldersInput, Prisma.WorkspaceUncheckedUpdateWithoutFoldersInput>
+  create: Prisma.XOR<Prisma.WorkspaceCreateWithoutFoldersInput, Prisma.WorkspaceUncheckedCreateWithoutFoldersInput>
+  where?: Prisma.WorkspaceWhereInput
+}
+
+export type WorkspaceUpdateToOneWithWhereWithoutFoldersInput = {
+  where?: Prisma.WorkspaceWhereInput
+  data: Prisma.XOR<Prisma.WorkspaceUpdateWithoutFoldersInput, Prisma.WorkspaceUncheckedUpdateWithoutFoldersInput>
+}
+
+export type WorkspaceUpdateWithoutFoldersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutWorkspacesNestedInput
+  lastActiveForUsers?: Prisma.UserUpdateManyWithoutLastActiveWorkspaceNestedInput
+}
+
+export type WorkspaceUncheckedUpdateWithoutFoldersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastActiveForUsers?: Prisma.UserUncheckedUpdateManyWithoutLastActiveWorkspaceNestedInput
 }
 
 export type WorkspaceCreateManyOwnerInput = {
@@ -470,6 +550,7 @@ export type WorkspaceUpdateWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastActiveForUsers?: Prisma.UserUpdateManyWithoutLastActiveWorkspaceNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutWorkspaceNestedInput
 }
 
 export type WorkspaceUncheckedUpdateWithoutOwnerInput = {
@@ -477,6 +558,7 @@ export type WorkspaceUncheckedUpdateWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastActiveForUsers?: Prisma.UserUncheckedUpdateManyWithoutLastActiveWorkspaceNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
 }
 
 export type WorkspaceUncheckedUpdateManyWithoutOwnerInput = {
@@ -492,10 +574,12 @@ export type WorkspaceUncheckedUpdateManyWithoutOwnerInput = {
 
 export type WorkspaceCountOutputType = {
   lastActiveForUsers: number
+  folders: number
 }
 
 export type WorkspaceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lastActiveForUsers?: boolean | WorkspaceCountOutputTypeCountLastActiveForUsersArgs
+  folders?: boolean | WorkspaceCountOutputTypeCountFoldersArgs
 }
 
 /**
@@ -515,6 +599,13 @@ export type WorkspaceCountOutputTypeCountLastActiveForUsersArgs<ExtArgs extends 
   where?: Prisma.UserWhereInput
 }
 
+/**
+ * WorkspaceCountOutputType without action
+ */
+export type WorkspaceCountOutputTypeCountFoldersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FolderWhereInput
+}
+
 
 export type WorkspaceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -523,6 +614,7 @@ export type WorkspaceSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   createdAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   lastActiveForUsers?: boolean | Prisma.Workspace$lastActiveForUsersArgs<ExtArgs>
+  folders?: boolean | Prisma.Workspace$foldersArgs<ExtArgs>
   _count?: boolean | Prisma.WorkspaceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workspace"]>
 
@@ -553,6 +645,7 @@ export type WorkspaceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type WorkspaceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   lastActiveForUsers?: boolean | Prisma.Workspace$lastActiveForUsersArgs<ExtArgs>
+  folders?: boolean | Prisma.Workspace$foldersArgs<ExtArgs>
   _count?: boolean | Prisma.WorkspaceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WorkspaceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -567,6 +660,7 @@ export type $WorkspacePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     owner: Prisma.$UserPayload<ExtArgs>
     lastActiveForUsers: Prisma.$UserPayload<ExtArgs>[]
+    folders: Prisma.$FolderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -969,6 +1063,7 @@ export interface Prisma__WorkspaceClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   lastActiveForUsers<T extends Prisma.Workspace$lastActiveForUsersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workspace$lastActiveForUsersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  folders<T extends Prisma.Workspace$foldersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workspace$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1419,6 +1514,30 @@ export type Workspace$lastActiveForUsersArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * Workspace.folders
+ */
+export type Workspace$foldersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Folder
+   */
+  select?: Prisma.FolderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Folder
+   */
+  omit?: Prisma.FolderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FolderInclude<ExtArgs> | null
+  where?: Prisma.FolderWhereInput
+  orderBy?: Prisma.FolderOrderByWithRelationInput | Prisma.FolderOrderByWithRelationInput[]
+  cursor?: Prisma.FolderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FolderScalarFieldEnum | Prisma.FolderScalarFieldEnum[]
 }
 
 /**

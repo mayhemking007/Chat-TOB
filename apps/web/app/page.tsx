@@ -21,8 +21,8 @@ export default function HomePage() {
     let cancelled = false;
     (async () => {
       const [wRes, mRes] = await Promise.all([
-        fetch("/api/workspaces"),
-        fetch("/api/me"),
+        fetch("/api/workspaces", { credentials: "include" }),
+        fetch("/api/me", { credentials: "include" }),
       ]);
       if (cancelled) return;
       if (wRes.status === 401 || mRes.status === 401) {
@@ -56,6 +56,7 @@ export default function HomePage() {
     try {
       const res = await fetch("/api/workspaces", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: createName.trim() }),
       });
@@ -73,6 +74,7 @@ export default function HomePage() {
       }
       await fetch("/api/me", {
         method: "PATCH",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lastActiveWorkspaceId: createdId }),
       });

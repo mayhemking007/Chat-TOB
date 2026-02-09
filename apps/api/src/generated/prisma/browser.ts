@@ -27,3 +27,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type Workspace = Prisma.WorkspaceModel
+/**
+ * Model Folder
+ * 
+ */
+export type Folder = Prisma.FolderModel

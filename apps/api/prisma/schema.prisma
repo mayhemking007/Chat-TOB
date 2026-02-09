@@ -29,6 +29,23 @@ model Workspace {
   createdAt           DateTime @default(now())
   owner               User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   lastActiveForUsers  User[]   @relation("LastActiveWorkspace")
+  folders             Folder[]
 
   @@index([ownerId])
+}
+
+model Folder {
+  id          String   @id @default(cuid())
+  workspaceId String
+  parentId    String?
+  name        String
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  parent    Folder?   @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Folder[]  @relation("FolderTree")
+
+  @@index([workspaceId])
+  @@index([parentId])
 }
