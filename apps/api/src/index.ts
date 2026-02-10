@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { prisma } from "./lib/prisma.js";
 import { authRouter } from "./routes/auth.js";
+import { foldersRouter } from "./routes/folders.js";
 import { usersRouter } from "./routes/users.js";
 import { workspacesRouter } from "./routes/workspaces.js";
 import { requireAuth } from "./middleware/requireAuth.js";
@@ -52,6 +53,7 @@ app.get("/auth/me", requireAuth, async (req, res) => {
 });
 
 app.use("/users", requireAuth, usersRouter);
+app.use("/workspaces/:workspaceId/folders", requireAuth, foldersRouter);
 app.use("/workspaces", requireAuth, workspacesRouter);
 
 app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

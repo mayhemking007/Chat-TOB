@@ -34,7 +34,6 @@ export default function WorkspacePage() {
       }
       const data = await res.json();
       setWorkspace(data);
-      // Set as last active workspace
       await fetch("/api/me", {
         method: "PATCH",
         credentials: "include",
@@ -54,7 +53,7 @@ export default function WorkspacePage() {
 
   if (error) {
     return (
-      <main className="min-h-screen p-8">
+      <div className="p-8">
         <p className="text-red-600">{error}</p>
         <button
           type="button"
@@ -63,24 +62,24 @@ export default function WorkspacePage() {
         >
           Back to home
         </button>
-      </main>
+      </div>
     );
   }
 
   if (!workspace) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-8">
+      <div className="flex min-h-[40vh] items-center justify-center p-8">
         <p className="text-gray-600">Loading workspace…</p>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-2xl font-semibold">{workspace.name}</h1>
+    <div className="p-8">
+      <h1 className="text-2xl font-semibold text-gray-900">{workspace.name}</h1>
       <p className="mt-2 text-gray-600">
-        Workspace home — Phase 2 will add folders and bots.
+        Select a folder or bot — Phase 2.4 will add the folder tree and bots.
       </p>
-    </main>
+    </div>
   );
 }
