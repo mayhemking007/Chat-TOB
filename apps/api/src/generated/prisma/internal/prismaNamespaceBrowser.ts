@@ -53,7 +53,11 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Workspace: 'Workspace',
-  Folder: 'Folder'
+  Folder: 'Folder',
+  Bot: 'Bot',
+  Message: 'Message',
+  Context: 'Context',
+  BotContext: 'BotContext'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -104,6 +108,52 @@ export const FolderScalarFieldEnum = {
 } as const
 
 export type FolderScalarFieldEnum = (typeof FolderScalarFieldEnum)[keyof typeof FolderScalarFieldEnum]
+
+
+export const BotScalarFieldEnum = {
+  id: 'id',
+  folderId: 'folderId',
+  name: 'name',
+  description: 'description',
+  purpose: 'purpose',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type BotScalarFieldEnum = (typeof BotScalarFieldEnum)[keyof typeof BotScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  botId: 'botId',
+  role: 'role',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const ContextScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  folderId: 'folderId',
+  title: 'title',
+  summary: 'summary',
+  sourceBotId: 'sourceBotId',
+  sourceFolderPath: 'sourceFolderPath',
+  createdAt: 'createdAt'
+} as const
+
+export type ContextScalarFieldEnum = (typeof ContextScalarFieldEnum)[keyof typeof ContextScalarFieldEnum]
+
+
+export const BotContextScalarFieldEnum = {
+  botId: 'botId',
+  contextId: 'contextId'
+} as const
+
+export type BotContextScalarFieldEnum = (typeof BotContextScalarFieldEnum)[keyof typeof BotContextScalarFieldEnum]
 
 
 export const SortOrder = {

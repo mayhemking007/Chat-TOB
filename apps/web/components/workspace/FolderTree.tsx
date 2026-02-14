@@ -1,6 +1,18 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+
+export type BotInFolder = {
+  id: string;
+  folderId: string;
+  name: string;
+  description: string | null;
+  purpose: string | null;
+  type: string;
+  createdAt: string;
+};
 
 export type FolderTreeNode = {
   id: string;
@@ -20,10 +32,16 @@ type CreateFormState = {
 } | null;
 
 export function FolderTree({ workspaceId }: { workspaceId: string }) {
+  const pathname = usePathname();
+  const selectedBotId =
+    pathname?.match(/^\/workspaces\/[^/]+\/bot\/([^/]+)$/)?.[1] ?? null;
+
   const [tree, setTree] = useState<FolderTreeNode[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [createForm, setCreateForm] = useState<CreateFormState>(null);
+  const [botsByFolderId, setBotsByFolderId] = useState<Record<string, BotInFolder[]>>({});
+  const [loadingBotsFor, setLoadingBotsFor] = useState<Set<string>>(new Set());
 
   const fetchTree = useCallback(async () => {
     const res = await fetch(
@@ -60,6 +78,63 @@ export function FolderTree({ workspaceId }: { workspaceId: string }) {
       return next;
     });
   };
+
+  const loadBotsForFolder = useCallback(
+    async (folderId: string, refetch = false) => {
+      if (!refetch && (botsByFolderId[folderId] !== undefined || loadingBotsFor.has(folderId)))
+        return;
+      if (refetch) {
+        setBotsByFolderId((prev) => {
+          const next = { ...prev };
+          delete next[folderId];
+          return next;
+        });
+      }
+      setLoadingBotsFor((prev) => new Set(prev).add(folderId));
+      try {
+        const res = await fetch(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/folders/${encodeURIComponent(folderId)}/bots`,
+          { credentials: "include" }
+        );
+        const data = await res.json().catch(() => []);
+        const list = Array.isArray(data) ? data : [];
+        setBotsByFolderId((prev) => ({ ...prev, [folderId]: list }));
+      } catch {
+        setBotsByFolderId((prev) => ({ ...prev, [folderId]: [] }));
+      } finally {
+        setLoadingBotsFor((prev) => {
+          const next = new Set(prev);
+          next.delete(folderId);
+          return next;
+        });
+      }
+    },
+    [workspaceId, botsByFolderId, loadingBotsFor]
+  );
+
+  // When viewing a bot, ensure its folder is expanded and bots are loaded (so sidebar shows it)
+  useEffect(() => {
+    if (!selectedBotId || !workspaceId) return;
+    const hasBotInList = Object.values(botsByFolderId).some((bots) =>
+      bots.some((b) => b.id === selectedBotId)
+    );
+    if (hasBotInList) return;
+    let cancelled = false;
+    (async () => {
+      const res = await fetch(
+        `/api/workspaces/${encodeURIComponent(workspaceId)}/bots/${encodeURIComponent(selectedBotId)}`,
+        { credentials: "include" }
+      );
+      if (cancelled || !res.ok) return;
+      const bot = await res.json().catch(() => null);
+      if (!bot?.folderId) return;
+      setExpanded((prev) => new Set(prev).add(bot.folderId));
+      loadBotsForFolder(bot.folderId, true);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedBotId, workspaceId, botsByFolderId, loadBotsForFolder]);
 
   const openCreateForm = (parentId: string | null) => {
     setCreateForm({ parentId, name: "", error: "", submitting: false });
@@ -140,9 +215,14 @@ export function FolderTree({ workspaceId }: { workspaceId: string }) {
               key={node.id}
               node={node}
               depth={0}
+              workspaceId={workspaceId}
               expanded={expanded}
+              botsByFolderId={botsByFolderId}
+              loadingBotsFor={loadingBotsFor}
+              selectedBotId={selectedBotId}
               onToggle={toggleExpanded}
               onAddChild={openCreateForm}
+              onLoadBots={loadBotsForFolder}
               createForm={createForm}
               onFormChange={setCreateForm}
               onSubmitCreate={submitCreate}
@@ -209,9 +289,14 @@ function CreateFolderForm({
 function FolderRow({
   node,
   depth,
+  workspaceId,
   expanded,
+  botsByFolderId,
+  loadingBotsFor,
+  selectedBotId,
   onToggle,
   onAddChild,
+  onLoadBots,
   createForm,
   onFormChange,
   onSubmitCreate,
@@ -219,9 +304,14 @@ function FolderRow({
 }: {
   node: FolderTreeNode;
   depth: number;
+  workspaceId: string;
   expanded: Set<string>;
+  botsByFolderId: Record<string, BotInFolder[]>;
+  loadingBotsFor: Set<string>;
+  selectedBotId: string | null;
   onToggle: (id: string) => void;
   onAddChild: (parentId: string) => void;
+  onLoadBots: (folderId: string, refetch?: boolean) => void;
   createForm: CreateFormState;
   onFormChange: (f: CreateFormState) => void;
   onSubmitCreate: () => void;
@@ -230,6 +320,14 @@ function FolderRow({
   const hasChildren = node.children && node.children.length > 0;
   const isExpanded = expanded.has(node.id);
   const isCreatingHere = createForm?.parentId === node.id;
+  const botsInFolder = botsByFolderId[node.id] ?? null;
+  const loadingBots = loadingBotsFor.has(node.id);
+
+  useEffect(() => {
+    if (isExpanded && botsByFolderId[node.id] === undefined) {
+      onLoadBots(node.id);
+    }
+  }, [isExpanded, node.id, botsByFolderId, onLoadBots]);
 
   return (
     <li className="list-none">
@@ -239,19 +337,22 @@ function FolderRow({
       >
         <button
           type="button"
-          onClick={() => hasChildren && onToggle(node.id)}
+          onClick={() => onToggle(node.id)}
           className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-gray-500 hover:bg-gray-200/80"
           aria-label={isExpanded ? "Collapse" : "Expand"}
         >
-          {hasChildren ? (
-            <span className="text-xs">{isExpanded ? "▼" : "▶"}</span>
-          ) : (
-            <span className="w-2" />
-          )}
+          <span className="text-xs">{isExpanded ? "▼" : "▶"}</span>
         </button>
         <span className="min-w-0 flex-1 truncate text-sm text-gray-800">
           {node.name}
         </span>
+        <Link
+          href={`/workspaces/${encodeURIComponent(workspaceId)}/folders/${encodeURIComponent(node.id)}/bots/new`}
+          className="shrink-0 text-xs text-gray-500 opacity-0 group-hover:opacity-100 hover:text-gray-700 hover:underline px-1"
+          title="New bot in this folder"
+        >
+          New bot
+        </Link>
         <button
           type="button"
           onClick={() => onAddChild(node.id)}
@@ -275,6 +376,30 @@ function FolderRow({
           />
         </div>
       )}
+      {isExpanded && (
+        <div className="list-none" style={{ paddingLeft: depth * 12 + 20 }}>
+          {loadingBots ? (
+            <span className="text-xs text-gray-400 py-0.5 block">Loading bots…</span>
+          ) : Array.isArray(botsInFolder) && botsInFolder.length > 0 ? (
+            <ul className="list-none pl-0 mt-0 space-y-0">
+              {botsInFolder.map((bot) => (
+                <li key={bot.id} className="py-0.5">
+                  <Link
+                    href={`/workspaces/${encodeURIComponent(workspaceId)}/bot/${encodeURIComponent(bot.id)}`}
+                    className={`block truncate text-sm py-0.5 px-1 rounded ${
+                      selectedBotId === bot.id
+                        ? "bg-gray-200 font-medium text-gray-900"
+                        : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                    }`}
+                  >
+                    {bot.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      )}
       {hasChildren && isExpanded && (
         <ul className="list-none pl-0 mt-0">
           {node.children.map((child) => (
@@ -282,9 +407,14 @@ function FolderRow({
               key={child.id}
               node={child}
               depth={depth + 1}
+              workspaceId={workspaceId}
               expanded={expanded}
+              botsByFolderId={botsByFolderId}
+              loadingBotsFor={loadingBotsFor}
+              selectedBotId={selectedBotId}
               onToggle={onToggle}
               onAddChild={onAddChild}
+              onLoadBots={onLoadBots}
               createForm={createForm}
               onFormChange={onFormChange}
               onSubmitCreate={onSubmitCreate}

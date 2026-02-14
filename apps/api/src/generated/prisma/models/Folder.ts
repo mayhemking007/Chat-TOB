@@ -227,6 +227,8 @@ export type FolderWhereInput = {
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
   parent?: Prisma.XOR<Prisma.FolderNullableScalarRelationFilter, Prisma.FolderWhereInput> | null
   children?: Prisma.FolderListRelationFilter
+  bots?: Prisma.BotListRelationFilter
+  contexts?: Prisma.ContextListRelationFilter
 }
 
 export type FolderOrderByWithRelationInput = {
@@ -239,6 +241,8 @@ export type FolderOrderByWithRelationInput = {
   workspace?: Prisma.WorkspaceOrderByWithRelationInput
   parent?: Prisma.FolderOrderByWithRelationInput
   children?: Prisma.FolderOrderByRelationAggregateInput
+  bots?: Prisma.BotOrderByRelationAggregateInput
+  contexts?: Prisma.ContextOrderByRelationAggregateInput
 }
 
 export type FolderWhereUniqueInput = Prisma.AtLeast<{
@@ -254,6 +258,8 @@ export type FolderWhereUniqueInput = Prisma.AtLeast<{
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
   parent?: Prisma.XOR<Prisma.FolderNullableScalarRelationFilter, Prisma.FolderWhereInput> | null
   children?: Prisma.FolderListRelationFilter
+  bots?: Prisma.BotListRelationFilter
+  contexts?: Prisma.ContextListRelationFilter
 }, "id">
 
 export type FolderOrderByWithAggregationInput = {
@@ -290,6 +296,8 @@ export type FolderCreateInput = {
   workspace: Prisma.WorkspaceCreateNestedOneWithoutFoldersInput
   parent?: Prisma.FolderCreateNestedOneWithoutChildrenInput
   children?: Prisma.FolderCreateNestedManyWithoutParentInput
+  bots?: Prisma.BotCreateNestedManyWithoutFolderInput
+  contexts?: Prisma.ContextCreateNestedManyWithoutFolderInput
 }
 
 export type FolderUncheckedCreateInput = {
@@ -300,6 +308,8 @@ export type FolderUncheckedCreateInput = {
   sortOrder?: number
   createdAt?: Date | string
   children?: Prisma.FolderUncheckedCreateNestedManyWithoutParentInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutFolderInput
+  contexts?: Prisma.ContextUncheckedCreateNestedManyWithoutFolderInput
 }
 
 export type FolderUpdateInput = {
@@ -310,6 +320,8 @@ export type FolderUpdateInput = {
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
   parent?: Prisma.FolderUpdateOneWithoutChildrenNestedInput
   children?: Prisma.FolderUpdateManyWithoutParentNestedInput
+  bots?: Prisma.BotUpdateManyWithoutFolderNestedInput
+  contexts?: Prisma.ContextUpdateManyWithoutFolderNestedInput
 }
 
 export type FolderUncheckedUpdateInput = {
@@ -320,6 +332,8 @@ export type FolderUncheckedUpdateInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.FolderUncheckedUpdateManyWithoutParentNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutFolderNestedInput
+  contexts?: Prisma.ContextUncheckedUpdateManyWithoutFolderNestedInput
 }
 
 export type FolderCreateManyInput = {
@@ -395,6 +409,11 @@ export type FolderMinOrderByAggregateInput = {
 
 export type FolderSumOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
+}
+
+export type FolderScalarRelationFilter = {
+  is?: Prisma.FolderWhereInput
+  isNot?: Prisma.FolderWhereInput
 }
 
 export type FolderCreateNestedManyWithoutWorkspaceInput = {
@@ -505,6 +524,34 @@ export type FolderUncheckedUpdateManyWithoutParentNestedInput = {
   deleteMany?: Prisma.FolderScalarWhereInput | Prisma.FolderScalarWhereInput[]
 }
 
+export type FolderCreateNestedOneWithoutBotsInput = {
+  create?: Prisma.XOR<Prisma.FolderCreateWithoutBotsInput, Prisma.FolderUncheckedCreateWithoutBotsInput>
+  connectOrCreate?: Prisma.FolderCreateOrConnectWithoutBotsInput
+  connect?: Prisma.FolderWhereUniqueInput
+}
+
+export type FolderUpdateOneRequiredWithoutBotsNestedInput = {
+  create?: Prisma.XOR<Prisma.FolderCreateWithoutBotsInput, Prisma.FolderUncheckedCreateWithoutBotsInput>
+  connectOrCreate?: Prisma.FolderCreateOrConnectWithoutBotsInput
+  upsert?: Prisma.FolderUpsertWithoutBotsInput
+  connect?: Prisma.FolderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FolderUpdateToOneWithWhereWithoutBotsInput, Prisma.FolderUpdateWithoutBotsInput>, Prisma.FolderUncheckedUpdateWithoutBotsInput>
+}
+
+export type FolderCreateNestedOneWithoutContextsInput = {
+  create?: Prisma.XOR<Prisma.FolderCreateWithoutContextsInput, Prisma.FolderUncheckedCreateWithoutContextsInput>
+  connectOrCreate?: Prisma.FolderCreateOrConnectWithoutContextsInput
+  connect?: Prisma.FolderWhereUniqueInput
+}
+
+export type FolderUpdateOneRequiredWithoutContextsNestedInput = {
+  create?: Prisma.XOR<Prisma.FolderCreateWithoutContextsInput, Prisma.FolderUncheckedCreateWithoutContextsInput>
+  connectOrCreate?: Prisma.FolderCreateOrConnectWithoutContextsInput
+  upsert?: Prisma.FolderUpsertWithoutContextsInput
+  connect?: Prisma.FolderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FolderUpdateToOneWithWhereWithoutContextsInput, Prisma.FolderUpdateWithoutContextsInput>, Prisma.FolderUncheckedUpdateWithoutContextsInput>
+}
+
 export type FolderCreateWithoutWorkspaceInput = {
   id?: string
   name: string
@@ -512,6 +559,8 @@ export type FolderCreateWithoutWorkspaceInput = {
   createdAt?: Date | string
   parent?: Prisma.FolderCreateNestedOneWithoutChildrenInput
   children?: Prisma.FolderCreateNestedManyWithoutParentInput
+  bots?: Prisma.BotCreateNestedManyWithoutFolderInput
+  contexts?: Prisma.ContextCreateNestedManyWithoutFolderInput
 }
 
 export type FolderUncheckedCreateWithoutWorkspaceInput = {
@@ -521,6 +570,8 @@ export type FolderUncheckedCreateWithoutWorkspaceInput = {
   sortOrder?: number
   createdAt?: Date | string
   children?: Prisma.FolderUncheckedCreateNestedManyWithoutParentInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutFolderInput
+  contexts?: Prisma.ContextUncheckedCreateNestedManyWithoutFolderInput
 }
 
 export type FolderCreateOrConnectWithoutWorkspaceInput = {
@@ -568,6 +619,8 @@ export type FolderCreateWithoutChildrenInput = {
   createdAt?: Date | string
   workspace: Prisma.WorkspaceCreateNestedOneWithoutFoldersInput
   parent?: Prisma.FolderCreateNestedOneWithoutChildrenInput
+  bots?: Prisma.BotCreateNestedManyWithoutFolderInput
+  contexts?: Prisma.ContextCreateNestedManyWithoutFolderInput
 }
 
 export type FolderUncheckedCreateWithoutChildrenInput = {
@@ -577,6 +630,8 @@ export type FolderUncheckedCreateWithoutChildrenInput = {
   name: string
   sortOrder?: number
   createdAt?: Date | string
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutFolderInput
+  contexts?: Prisma.ContextUncheckedCreateNestedManyWithoutFolderInput
 }
 
 export type FolderCreateOrConnectWithoutChildrenInput = {
@@ -591,6 +646,8 @@ export type FolderCreateWithoutParentInput = {
   createdAt?: Date | string
   workspace: Prisma.WorkspaceCreateNestedOneWithoutFoldersInput
   children?: Prisma.FolderCreateNestedManyWithoutParentInput
+  bots?: Prisma.BotCreateNestedManyWithoutFolderInput
+  contexts?: Prisma.ContextCreateNestedManyWithoutFolderInput
 }
 
 export type FolderUncheckedCreateWithoutParentInput = {
@@ -600,6 +657,8 @@ export type FolderUncheckedCreateWithoutParentInput = {
   sortOrder?: number
   createdAt?: Date | string
   children?: Prisma.FolderUncheckedCreateNestedManyWithoutParentInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutFolderInput
+  contexts?: Prisma.ContextUncheckedCreateNestedManyWithoutFolderInput
 }
 
 export type FolderCreateOrConnectWithoutParentInput = {
@@ -630,6 +689,8 @@ export type FolderUpdateWithoutChildrenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
   parent?: Prisma.FolderUpdateOneWithoutChildrenNestedInput
+  bots?: Prisma.BotUpdateManyWithoutFolderNestedInput
+  contexts?: Prisma.ContextUpdateManyWithoutFolderNestedInput
 }
 
 export type FolderUncheckedUpdateWithoutChildrenInput = {
@@ -639,6 +700,8 @@ export type FolderUncheckedUpdateWithoutChildrenInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bots?: Prisma.BotUncheckedUpdateManyWithoutFolderNestedInput
+  contexts?: Prisma.ContextUncheckedUpdateManyWithoutFolderNestedInput
 }
 
 export type FolderUpsertWithWhereUniqueWithoutParentInput = {
@@ -657,6 +720,126 @@ export type FolderUpdateManyWithWhereWithoutParentInput = {
   data: Prisma.XOR<Prisma.FolderUpdateManyMutationInput, Prisma.FolderUncheckedUpdateManyWithoutParentInput>
 }
 
+export type FolderCreateWithoutBotsInput = {
+  id?: string
+  name: string
+  sortOrder?: number
+  createdAt?: Date | string
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutFoldersInput
+  parent?: Prisma.FolderCreateNestedOneWithoutChildrenInput
+  children?: Prisma.FolderCreateNestedManyWithoutParentInput
+  contexts?: Prisma.ContextCreateNestedManyWithoutFolderInput
+}
+
+export type FolderUncheckedCreateWithoutBotsInput = {
+  id?: string
+  workspaceId: string
+  parentId?: string | null
+  name: string
+  sortOrder?: number
+  createdAt?: Date | string
+  children?: Prisma.FolderUncheckedCreateNestedManyWithoutParentInput
+  contexts?: Prisma.ContextUncheckedCreateNestedManyWithoutFolderInput
+}
+
+export type FolderCreateOrConnectWithoutBotsInput = {
+  where: Prisma.FolderWhereUniqueInput
+  create: Prisma.XOR<Prisma.FolderCreateWithoutBotsInput, Prisma.FolderUncheckedCreateWithoutBotsInput>
+}
+
+export type FolderUpsertWithoutBotsInput = {
+  update: Prisma.XOR<Prisma.FolderUpdateWithoutBotsInput, Prisma.FolderUncheckedUpdateWithoutBotsInput>
+  create: Prisma.XOR<Prisma.FolderCreateWithoutBotsInput, Prisma.FolderUncheckedCreateWithoutBotsInput>
+  where?: Prisma.FolderWhereInput
+}
+
+export type FolderUpdateToOneWithWhereWithoutBotsInput = {
+  where?: Prisma.FolderWhereInput
+  data: Prisma.XOR<Prisma.FolderUpdateWithoutBotsInput, Prisma.FolderUncheckedUpdateWithoutBotsInput>
+}
+
+export type FolderUpdateWithoutBotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
+  parent?: Prisma.FolderUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.FolderUpdateManyWithoutParentNestedInput
+  contexts?: Prisma.ContextUpdateManyWithoutFolderNestedInput
+}
+
+export type FolderUncheckedUpdateWithoutBotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  children?: Prisma.FolderUncheckedUpdateManyWithoutParentNestedInput
+  contexts?: Prisma.ContextUncheckedUpdateManyWithoutFolderNestedInput
+}
+
+export type FolderCreateWithoutContextsInput = {
+  id?: string
+  name: string
+  sortOrder?: number
+  createdAt?: Date | string
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutFoldersInput
+  parent?: Prisma.FolderCreateNestedOneWithoutChildrenInput
+  children?: Prisma.FolderCreateNestedManyWithoutParentInput
+  bots?: Prisma.BotCreateNestedManyWithoutFolderInput
+}
+
+export type FolderUncheckedCreateWithoutContextsInput = {
+  id?: string
+  workspaceId: string
+  parentId?: string | null
+  name: string
+  sortOrder?: number
+  createdAt?: Date | string
+  children?: Prisma.FolderUncheckedCreateNestedManyWithoutParentInput
+  bots?: Prisma.BotUncheckedCreateNestedManyWithoutFolderInput
+}
+
+export type FolderCreateOrConnectWithoutContextsInput = {
+  where: Prisma.FolderWhereUniqueInput
+  create: Prisma.XOR<Prisma.FolderCreateWithoutContextsInput, Prisma.FolderUncheckedCreateWithoutContextsInput>
+}
+
+export type FolderUpsertWithoutContextsInput = {
+  update: Prisma.XOR<Prisma.FolderUpdateWithoutContextsInput, Prisma.FolderUncheckedUpdateWithoutContextsInput>
+  create: Prisma.XOR<Prisma.FolderCreateWithoutContextsInput, Prisma.FolderUncheckedCreateWithoutContextsInput>
+  where?: Prisma.FolderWhereInput
+}
+
+export type FolderUpdateToOneWithWhereWithoutContextsInput = {
+  where?: Prisma.FolderWhereInput
+  data: Prisma.XOR<Prisma.FolderUpdateWithoutContextsInput, Prisma.FolderUncheckedUpdateWithoutContextsInput>
+}
+
+export type FolderUpdateWithoutContextsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
+  parent?: Prisma.FolderUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.FolderUpdateManyWithoutParentNestedInput
+  bots?: Prisma.BotUpdateManyWithoutFolderNestedInput
+}
+
+export type FolderUncheckedUpdateWithoutContextsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  children?: Prisma.FolderUncheckedUpdateManyWithoutParentNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutFolderNestedInput
+}
+
 export type FolderCreateManyWorkspaceInput = {
   id?: string
   parentId?: string | null
@@ -672,6 +855,8 @@ export type FolderUpdateWithoutWorkspaceInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.FolderUpdateOneWithoutChildrenNestedInput
   children?: Prisma.FolderUpdateManyWithoutParentNestedInput
+  bots?: Prisma.BotUpdateManyWithoutFolderNestedInput
+  contexts?: Prisma.ContextUpdateManyWithoutFolderNestedInput
 }
 
 export type FolderUncheckedUpdateWithoutWorkspaceInput = {
@@ -681,6 +866,8 @@ export type FolderUncheckedUpdateWithoutWorkspaceInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.FolderUncheckedUpdateManyWithoutParentNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutFolderNestedInput
+  contexts?: Prisma.ContextUncheckedUpdateManyWithoutFolderNestedInput
 }
 
 export type FolderUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -706,6 +893,8 @@ export type FolderUpdateWithoutParentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
   children?: Prisma.FolderUpdateManyWithoutParentNestedInput
+  bots?: Prisma.BotUpdateManyWithoutFolderNestedInput
+  contexts?: Prisma.ContextUpdateManyWithoutFolderNestedInput
 }
 
 export type FolderUncheckedUpdateWithoutParentInput = {
@@ -715,6 +904,8 @@ export type FolderUncheckedUpdateWithoutParentInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.FolderUncheckedUpdateManyWithoutParentNestedInput
+  bots?: Prisma.BotUncheckedUpdateManyWithoutFolderNestedInput
+  contexts?: Prisma.ContextUncheckedUpdateManyWithoutFolderNestedInput
 }
 
 export type FolderUncheckedUpdateManyWithoutParentInput = {
@@ -732,10 +923,14 @@ export type FolderUncheckedUpdateManyWithoutParentInput = {
 
 export type FolderCountOutputType = {
   children: number
+  bots: number
+  contexts: number
 }
 
 export type FolderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   children?: boolean | FolderCountOutputTypeCountChildrenArgs
+  bots?: boolean | FolderCountOutputTypeCountBotsArgs
+  contexts?: boolean | FolderCountOutputTypeCountContextsArgs
 }
 
 /**
@@ -755,6 +950,20 @@ export type FolderCountOutputTypeCountChildrenArgs<ExtArgs extends runtime.Types
   where?: Prisma.FolderWhereInput
 }
 
+/**
+ * FolderCountOutputType without action
+ */
+export type FolderCountOutputTypeCountBotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BotWhereInput
+}
+
+/**
+ * FolderCountOutputType without action
+ */
+export type FolderCountOutputTypeCountContextsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContextWhereInput
+}
+
 
 export type FolderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -766,6 +975,8 @@ export type FolderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.Folder$parentArgs<ExtArgs>
   children?: boolean | Prisma.Folder$childrenArgs<ExtArgs>
+  bots?: boolean | Prisma.Folder$botsArgs<ExtArgs>
+  contexts?: boolean | Prisma.Folder$contextsArgs<ExtArgs>
   _count?: boolean | Prisma.FolderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["folder"]>
 
@@ -805,6 +1016,8 @@ export type FolderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.Folder$parentArgs<ExtArgs>
   children?: boolean | Prisma.Folder$childrenArgs<ExtArgs>
+  bots?: boolean | Prisma.Folder$botsArgs<ExtArgs>
+  contexts?: boolean | Prisma.Folder$contextsArgs<ExtArgs>
   _count?: boolean | Prisma.FolderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FolderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -822,6 +1035,8 @@ export type $FolderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     workspace: Prisma.$WorkspacePayload<ExtArgs>
     parent: Prisma.$FolderPayload<ExtArgs> | null
     children: Prisma.$FolderPayload<ExtArgs>[]
+    bots: Prisma.$BotPayload<ExtArgs>[]
+    contexts: Prisma.$ContextPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1227,6 +1442,8 @@ export interface Prisma__FolderClient<T, Null = never, ExtArgs extends runtime.T
   workspace<T extends Prisma.WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkspaceDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkspaceClient<runtime.Types.Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   parent<T extends Prisma.Folder$parentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Folder$parentArgs<ExtArgs>>): Prisma.Prisma__FolderClient<runtime.Types.Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   children<T extends Prisma.Folder$childrenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Folder$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bots<T extends Prisma.Folder$botsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Folder$botsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contexts<T extends Prisma.Folder$contextsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Folder$contextsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContextPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1698,6 +1915,54 @@ export type Folder$childrenArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.FolderScalarFieldEnum | Prisma.FolderScalarFieldEnum[]
+}
+
+/**
+ * Folder.bots
+ */
+export type Folder$botsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Bot
+   */
+  select?: Prisma.BotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Bot
+   */
+  omit?: Prisma.BotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotInclude<ExtArgs> | null
+  where?: Prisma.BotWhereInput
+  orderBy?: Prisma.BotOrderByWithRelationInput | Prisma.BotOrderByWithRelationInput[]
+  cursor?: Prisma.BotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BotScalarFieldEnum | Prisma.BotScalarFieldEnum[]
+}
+
+/**
+ * Folder.contexts
+ */
+export type Folder$contextsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Context
+   */
+  select?: Prisma.ContextSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Context
+   */
+  omit?: Prisma.ContextOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContextInclude<ExtArgs> | null
+  where?: Prisma.ContextWhereInput
+  orderBy?: Prisma.ContextOrderByWithRelationInput | Prisma.ContextOrderByWithRelationInput[]
+  cursor?: Prisma.ContextWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContextScalarFieldEnum | Prisma.ContextScalarFieldEnum[]
 }
 
 /**

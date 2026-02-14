@@ -78,7 +78,7 @@ export default function WorkspacePage() {
     <div className="p-8">
       <h1 className="text-2xl font-semibold text-gray-900">{workspace.name}</h1>
       <p className="mt-2 text-gray-600">
-        Select a folder or bot — Phase 2.4 will add the folder tree and bots.
+        Select a folder or bot in the sidebar to get started.
       </p>
     </div>
   );

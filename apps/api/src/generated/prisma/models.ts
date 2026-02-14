@@ -11,4 +11,8 @@
 export type * from './models/User.js'
 export type * from './models/Workspace.js'
 export type * from './models/Folder.js'
+export type * from './models/Bot.js'
+export type * from './models/Message.js'
+export type * from './models/Context.js'
+export type * from './models/BotContext.js'
 export type * from './commonInputTypes.js'

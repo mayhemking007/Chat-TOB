@@ -23,13 +23,14 @@ model User {
 }
 
 model Workspace {
-  id                  String   @id @default(cuid())
+  id                  String    @id @default(cuid())
   name                String
   ownerId             String
-  createdAt           DateTime @default(now())
-  owner               User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  lastActiveForUsers  User[]   @relation("LastActiveWorkspace")
+  createdAt           DateTime  @default(now())
+  owner               User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  lastActiveForUsers  User[]    @relation("LastActiveWorkspace")
   folders             Folder[]
+  contexts            Context[]
 
   @@index([ownerId])
 }
@@ -45,7 +46,72 @@ model Folder {
   workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   parent    Folder?   @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
   children  Folder[]  @relation("FolderTree")
+  bots      Bot[]
+  contexts  Context[]
 
   @@index([workspaceId])
   @@index([parentId])
+}
+
+// Phase 3.1: Bot per folder; type: "fresh" | "context_aware"
+model Bot {
+  id          String   @id @default(cuid())
+  folderId    String
+  name        String
+  description String?
+  purpose     String?
+  type        String   // "fresh" | "context_aware"
+  createdAt   DateTime @default(now())
+
+  folder           Folder       @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  sourceContexts   Context[]    @relation("ContextSourceBot")
+  selectedContexts BotContext[]
+  messages         Message[]
+
+  @@index([folderId])
+}
+
+// Phase 4.1: Messages per bot; conversation = ordered messages per bot
+model Message {
+  id        String   @id @default(cuid())
+  botId     String
+  role      String   // "user" | "assistant"
+  content   String
+  createdAt DateTime @default(now())
+
+  bot Bot @relation(fields: [botId], references: [id], onDelete: Cascade)
+
+  @@index([botId])
+}
+
+// Phase 3.2: Context scoped by workspace + folder; optional source bot/path
+model Context {
+  id                String   @id @default(cuid())
+  workspaceId       String
+  folderId          String
+  title             String
+  summary           String
+  sourceBotId       String?
+  sourceFolderPath  String?
+  createdAt         DateTime @default(now())
+
+  workspace      Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  folder         Folder      @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  sourceBot      Bot?        @relation("ContextSourceBot", fields: [sourceBotId], references: [id], onDelete: SetNull)
+  selectedByBots BotContext[]
+
+  @@index([workspaceId])
+  @@index([folderId])
+}
+
+// Phase 3.2: Bot ↔ selected context (explicit selection for context-aware bots)
+model BotContext {
+  botId     String
+  contextId String
+
+  bot     Bot     @relation(fields: [botId], references: [id], onDelete: Cascade)
+  context Context @relation(fields: [contextId], references: [id], onDelete: Cascade)
+
+  @@id([botId, contextId])
+  @@index([contextId])
 }

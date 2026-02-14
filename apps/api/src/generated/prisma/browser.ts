@@ -32,3 +32,23 @@ export type Workspace = Prisma.WorkspaceModel
  * 
  */
 export type Folder = Prisma.FolderModel
+/**
+ * Model Bot
+ * 
+ */
+export type Bot = Prisma.BotModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
+/**
+ * Model Context
+ * 
+ */
+export type Context = Prisma.ContextModel
+/**
+ * Model BotContext
+ * 
+ */
+export type BotContext = Prisma.BotContextModel
